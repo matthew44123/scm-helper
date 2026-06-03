@@ -5,6 +5,8 @@
 // @description  adds verious links and indcators for tf2 listings
 // @match        https://steamcommunity.com/market/*
 // @match        https://steamcommunity.com/market/listings/440/*
+// @updateURL    https://github.com/matthew44123/scm-helper/raw/main/scm-helper.user.js
+// @downloadURL  https://github.com/matthew44123/scm-helper/raw/main/scm-helper.user.js
 // @grant        unsafeWindow
 // @grant        GM_xmlhttpRequest
 // @connect      pricedb.io
