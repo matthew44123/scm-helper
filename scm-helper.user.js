@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         scm-helper
 // @namespace    tf2-helper
-// @version      0.4.11
+// @version      0.4.12
 // @description  adds verious links and indcators for tf2 listings
 // @match        https://steamcommunity.com/market/*
 // @match        https://steamcommunity.com/market/listings/440/*
@@ -12,6 +12,17 @@
 // @connect      pricedb.io
 // @connect      sku.pricedb.io
 // ==/UserScript==
+//==================================================================
+//                CHANGELOGCHANGELOG
+//                CHANGELOGCHANGELOG
+//                CHANGELOGCHANGELOG
+// *I added all those redutant lines to tell you that I removed all those reduntant lines in the code xd
+// *Change the parsing function to detect comma decimal sepearator properly
+//
+//
+//
+//
+//
 (function () {
     'use strict';
 const WEAPON_INDEX_MAP = {
@@ -29,128 +40,128 @@ const WEAPON_INDEX_MAP = {
     "Sniper Rifle": 201,
     "Minigun": 202,
     "SMG": 203,
-    "Rocket Launcher": 205, // [cite: 1]
-    "Grenade Launcher": 206, // [cite: 1]
-    "Stickybomb Launcher": 207, // [cite: 2]
-    "Flame Thrower": 208, // [cite: 2]
-    "Pistol": 209, // [cite: 2]
-    "Revolver": 210, // [cite: 2]
-    "Medi Gun": 211, // [cite: 2]
-    "Kritzkrieg": 35, // [cite: 2]
-    "Blutsauger": 36, // [cite: 2]
-    "Übersaw": 37, // [cite: 2]
-    "Axtinguisher": 38, // [cite: 2]
-    "Flare Gun": 39, // [cite: 2]
-    "Backburner": 40, // [cite: 2]
-    "Natascha": 41, // [cite: 2]
-    "Killing Gloves of Boxing": 43, // [cite: 2]
-    "Sandman": 44, // [cite: 2]
-    "Force-a-Nature": 45, // [cite: 2]
-    "Huntsman": 56, // [cite: 2]
-    "Ambassador": 61, // [cite: 3]
-    "Direct Hit": 127, // [cite: 3]
-    "Equalizer": 128, // [cite: 3]
-    "Scottish Resistance": 130, // [cite: 3]
-    "Eyelander": 132, // [cite: 3]
-    "Wrangler": 140, // [cite: 3]
-    "Homewrecker": 153, // [cite: 3]
-    "Pain Train": 154, // [cite: 3]
-    "Southern Hospitality": 155, // [cite: 3]
-    "Tribalman's Shiv": 171, // [cite: 3]
-    "Scotsman's Skullcutter": 172, // [cite: 3]
-    "Vita-Saw": 173, // [cite: 3]
-    "Powerjack": 214, // [cite: 3]
-    "Degreaser": 215, // [cite: 3]
-    "Shortstop": 220, // [cite: 3]
-    "Holy Mackerel": 221, // [cite: 3]
-    "L'Etranger": 224, // [cite: 4]
-    "Your Eternal Reward": 225, // [cite: 4]
-    "Black Box": 228, // [cite: 4]
-    "Sydney Sleeper": 230, // [cite: 4]
-    "Bushwacka": 232, // [cite: 4]
-    "Rocket Jumper": 237, // [cite: 4]
-    "Gloves of Running Urgently": 239, // [cite: 4]
-    "Frying Pan": 264, // [cite: 4]
-    "Stickybomb Jumper": 265, // [cite: 4]
-    "Amputator": 304, // [cite: 4]
-    "Crusader's Crossbow": 305, // [cite: 4]
-    "Ullapool Caber": 307, // [cite: 4]
-    "Loch-n-Load": 308, // [cite: 4]
-    "Brass Beast": 312, // [cite: 4]
-    "Candy Cane": 317, // [cite: 4]
-    "Boston Basher": 325, // [cite: 5]
-    "Back Scratcher": 326, // [cite: 5]
-    "Claidheamh Mòr": 327, // [cite: 5]
-    "Jag": 329, // [cite: 5]
-    "Fists of Steel": 331, // [cite: 5]
+    "Rocket Launcher": 205,
+    "Grenade Launcher": 206,
+    "Stickybomb Launcher": 207,
+    "Flame Thrower": 208,
+    "Pistol": 209,
+    "Revolver": 210,
+    "Medi Gun": 211,
+    "Kritzkrieg": 35,
+    "Blutsauger": 36,
+    "Übersaw": 37,
+    "Axtinguisher": 38,
+    "Flare Gun": 39,
+    "Backburner": 40,
+    "Natascha": 41,
+    "Killing Gloves of Boxing": 43,
+    "Sandman": 44,
+    "Force-a-Nature": 45,
+    "Huntsman": 56,
+    "Ambassador": 61,
+    "Direct Hit": 127,
+    "Equalizer": 128,
+    "Scottish Resistance": 130,
+    "Eyelander": 132,
+    "Wrangler": 140,
+    "Homewrecker": 153,
+    "Pain Train": 154,
+    "Southern Hospitality": 155,
+    "Tribalman's Shiv": 171,
+    "Scotsman's Skullcutter": 172,
+    "Vita-Saw": 173,
+    "Powerjack": 214,
+    "Degreaser": 215,
+    "Shortstop": 220,
+    "Holy Mackerel": 221,
+    "L'Etranger": 224,
+    "Your Eternal Reward": 225,
+    "Black Box": 228,
+    "Sydney Sleeper": 230,
+    "Bushwacka": 232,
+    "Rocket Jumper": 237,
+    "Gloves of Running Urgently": 239,
+    "Frying Pan": 264,
+    "Stickybomb Jumper": 265,
+    "Amputator": 304,
+    "Crusader's Crossbow": 305,
+    "Ullapool Caber": 307,
+    "Loch-n-Load": 308,
+    "Brass Beast": 312,
+    "Candy Cane": 317,
+    "Boston Basher": 325,
+    "Back Scratcher": 326,
+    "Claidheamh Mòr": 327,
+    "Jag": 329,
+    "Fists of Steel": 331,
     "Sharpened Volcano Fragment": 348,
-    "Sun-on-a-Stick": 349, // [cite: 5]
-    "Detonator": 351, // [cite: 5]
-    "Fan O'War": 355, // [cite: 5]
-    "Conniver's Kunai": 356, // [cite: 5]
-    "Shahanshah": 401, // [cite: 5]
-    "Bazaar Bargain": 402, // [cite: 5]
-    "Persian Persuader": 404, // [cite: 5]
-    "Quick-Fix": 411, // [cite: 5]
-    "Overdose": 412, // [cite: 5]
-    "Solemn Vow": 413, // [cite: 5, 6]
-    "Liberty Launcher": 414, // [cite: 6]
-    "Reserve Shooter": 415, // [cite: 6]
-    "Market Gardener": 416, // [cite: 6]
-    "Saxxy": 423, // [cite: 6]
-    "Tomislav": 424, // [cite: 6]
-    "Family Business": 425, // [cite: 6]
-    "Cow Mangler 5000": 441, // [cite: 6]
-    "Righteous Bison": 442, // [cite: 6]
-    "Disciplinary Action": 447, // [cite: 6]
-    "Soda Popper": 448, // [cite: 6]
-    "Winger": 449, // [cite: 6]
-    "Three-Rune Blade": 452, // [cite: 6]
-    "Postal Pummeler": 457, // [cite: 6]
-    "Enforcer": 460, // [cite: 6]
-    "Big Earner": 461, // [cite: 6]
-    "Maul": 466, // [cite: 7]
-    "Conscientious Objector": 474, // [cite: 7]
-    "Nessie's Nine Iron": 482, // [cite: 7]
-    "Original": 513, // [cite: 7]
-    "Diamondback": 525, // [cite: 7]
-    "Machina": 526, // [cite: 7]
-    "Widowmaker": 527, // [cite: 7]
-    "Unarmed Combat": 572, // [cite: 7]
-    "Wanga Prick": 574, // [cite: 7]
-    "Apoco-Fists": 587, // [cite: 7]
-    "Eureka Effect": 589, // [cite: 7]
-    "Third Degree": 593, // [cite: 7]
-    "Phlogistinator": 594, // [cite: 7]
-    "Manmelter": 595, // [cite: 7]
-    "Scottish Handshake": 609, // [cite: 7]
-    "Sharp Dresser": 638, // [cite: 7, 8]
-    "Wrap Assassin": 648, // [cite: 8]
-    "Spy-Cicle": 649, // [cite: 8]
-    "Black Rose": 727, // [cite: 8]
-    "Beggar's Bazooka": 730, // [cite: 8]
-    "Sapper": 735, // [cite: 8]
-    "Scorch Shot": 740, // [cite: 8]
-    "Cleaner's Carbine": 751, // [cite: 8]
-    "Hitman's Heatmaker": 752, // [cite: 8]
-    "Baby Face's Blaster": 772, // [cite: 8]
-    "Escape Plan": 775, // [cite: 8]
-    "AWPer Hand": 851, // [cite: 8]
-    "Freedom Staff": 880, // [cite: 8]
-    "Bat Outta Hell": 939, // [cite: 8]
-    "Loose Cannon": 996, // [cite: 8]
-    "Rescue Ranger": 997, // [cite: 9]
-    "Vaccinator": 998, // [cite: 9]
-    "Ham Shank": 1013, // [cite: 9]
-    "Fortified Compound": 1092, // [cite: 9]
-    "Classic": 1098, // [cite: 9]
-    "Back Scatter": 1103, // [cite: 9]
-    "Air Strike": 1104, // [cite: 9]
-    "Necro Smasher": 1123, // [cite: 9]
-    "Crossing Guard": 1127, // [cite: 9]
-    "Quickiebomb Launcher": 1150, // [cite: 9]
-    "Iron Bomber": 1151, // [cite: 9]
-    "Panic Attack": 1153, // [cite: 9]
+    "Sun-on-a-Stick": 349,
+    "Detonator": 351,
+    "Fan O'War": 355,
+    "Conniver's Kunai": 356,
+    "Shahanshah": 401,
+    "Bazaar Bargain": 402,
+    "Persian Persuader": 404,
+    "Quick-Fix": 411,
+    "Overdose": 412,
+    "Solemn Vow": 413,
+    "Liberty Launcher": 414,
+    "Reserve Shooter": 415,
+    "Market Gardener": 416,
+    "Saxxy": 423,
+    "Tomislav": 424,
+    "Family Business": 425,
+    "Cow Mangler 5000": 441,
+    "Righteous Bison": 442,
+    "Disciplinary Action": 447,
+    "Soda Popper": 448,
+    "Winger": 449,
+    "Three-Rune Blade": 452,
+    "Postal Pummeler": 457,
+    "Enforcer": 460,
+    "Big Earner": 461,
+    "Maul": 466,
+    "Conscientious Objector": 474,
+    "Nessie's Nine Iron": 482,
+    "Original": 513,
+    "Diamondback": 525,
+    "Machina": 526,
+    "Widowmaker": 527,
+    "Unarmed Combat": 572, 
+    "Wanga Prick": 574,
+    "Apoco-Fists": 587, 
+    "Eureka Effect": 589,
+    "Third Degree": 593,
+    "Phlogistinator": 594,
+    "Manmelter": 595,
+    "Scottish Handshake": 609,
+    "Sharp Dresser": 638,
+    "Wrap Assassin": 648,
+    "Spy-Cicle": 649,
+    "Black Rose": 727,
+    "Beggar's Bazooka": 730,
+    "Sapper": 735,
+    "Scorch Shot": 740,
+    "Cleaner's Carbine": 751,
+    "Hitman's Heatmaker": 752,
+    "Baby Face's Blaster": 772,
+    "Escape Plan": 775,
+    "AWPer Hand": 851,
+    "Freedom Staff": 880,
+    "Bat Outta Hell": 939,
+    "Loose Cannon": 996, 
+    "Rescue Ranger": 997,
+    "Vaccinator": 998, 
+    "Ham Shank": 1013,
+    "Fortified Compound": 1092,
+    "Classic": 1098,
+    "Back Scatter": 1103,
+    "Air Strike": 1104, 
+    "Necro Smasher": 1123,
+    "Crossing Guard": 1127,
+    "Quickiebomb Launcher": 1150,
+    "Iron Bomber": 1151,
+    "Panic Attack": 1153,
     "Dragon's Fury": 1178,
     "Nostromo Napalmer": 30474,
     "Iron Curtain" : 298,
@@ -698,13 +709,13 @@ const WEAPON_INDEX_MAP = {
 					"Circuit Break":3223
     };
 const SHEEN_COLORS = {
-    "Team Shine": "#FF4D4D", // Red (or you could do a gradient)
-    "Deadly Daffodil": "#E6E600", // Yellow
-    "Manndarin": "#FF7E00", // Orange
-    "Mean Green": "#4DFF4D", // Light Green
-    "Agonizing Emerald": "#00CC00", // Dark Green
-    "Villainous Violet": "#9933FF", // Purple
-    "Hot Rod": "#FF66FF" // Pink
+    "Team Shine": "#FF4D4D",
+    "Deadly Daffodil": "#E6E600",
+    "Manndarin": "#FF7E00",
+    "Mean Green": "#4DFF4D",
+    "Agonizing Emerald": "#00CC00", 
+    "Villainous Violet": "#9933FF", 
+    "Hot Rod": "#FF66FF"
 };
 const WP_WEAPONS = {
     standard: {
@@ -1293,7 +1304,6 @@ function injectSmartNavigator(skuData) {
     navBox.id = 'scm-navigator';
     navBox.style.cssText = "background: #101822; border: 1px solid #4f94bc; padding: 12px; margin-top: 15px; margin-bottom: 15px; border-radius: 4px; color: #ccc; font-size: 12px;";
 
-    // NEW: We added a Quality Dropdown to perfectly control Unusual, Vintage, etc.
     let html = `
         <div style="font-weight: bold; color: #67c1f5; margin-bottom: 8px; display: flex; justify-content: space-between;">
             <span>QUICK NAVIGATOR</span>
@@ -1395,7 +1405,6 @@ function injectSmartNavigator(skuData) {
                 finalWear = " " + wear;
             }
 
-            // The order is EXACTLY what Steam expects for Hats/Standard Items
             finalName = `${isStr ? 'Strange ' : ''}${inherentQuality}${isFest ? 'Festivized ' : ''}${ksPrefix}${baseItemName}${finalWear} ${toolType}`.trim();
         }
 
@@ -1404,8 +1413,6 @@ function injectSmartNavigator(skuData) {
 }
 
 // ===== UI CUSTOMIZATION =====
-// Function to handle the actual hiding logic
-// Toggles the Price History Graph and its Zoom Controls
 
 function applyVisibilitySettings() {
     const hideDetails = getSetting("hideItemDetails", false);
@@ -1455,7 +1462,6 @@ function applyVisibilitySettings() {
 
 
 // Run this immediately on load to apply saved preference
-//toggleMarketInfo(localStorage.getItem("hideMarketInfo") === "true");
     const observer = new MutationObserver(() => {
         addButtons();
         addKillstreakButtons();
@@ -1471,7 +1477,6 @@ function applyVisibilitySettings() {
 
 // ===== KEY PRICE CONFIG =====
 
-// Storage Helpers
 const getSetting = (key, defaultValue) => {
     const val = localStorage.getItem(key);
     if (val === null) return defaultValue;
@@ -1511,12 +1516,12 @@ const showKeys = getSetting("showKeys", true);
 
         <div style="margin-bottom:10px;">
             <label style="font-size:11px; display:block;">Key Price (Steam):</label>
-            <input type="number" id="cfg-key-price" value="${getKeyPrice()}" step="0.01" style="background:#000; color:#fff; border:1px solid #444; width:90%; padding:2px;">
+            <input type="text" inputmode="decimal" id="cfg-key-price" value="${getKeyPrice()}" style="background:#000; color:#fff; border:1px solid #444; width:90%; padding:2px;">
         </div>
 
         <div style="margin-bottom:10px;">
             <label style="font-size:11px; display:block;">Ref per Key:</label>
-            <input type="number" id="cfg-ref-price" value="${getRefPrice()}" step="0.1" style="background:#000; color:#fff; border:1px solid #444; width:90%; padding:2px;">
+            <input type="text" inputmode="decimal" id="cfg-ref-price" value="${getRefPrice()}" style="background:#000; color:#fff; border:1px solid #444; width:90%; padding:2px;">
         </div>
 
         <div style="margin-bottom:8px; font-size:12px; line-height: 1.6;">
@@ -1542,28 +1547,63 @@ const showKeys = getSetting("showKeys", true);
     document.body.appendChild(menu);
 
 document.getElementById("cfg-save").onclick = () => {
-        setKeyPrice(document.getElementById("cfg-key-price").value);
-        setRefPrice(document.getElementById("cfg-ref-price").value);
+        // Run what the user typed through the smart parser before saving!
+        const safeKey = parseSafeNumber(document.getElementById("cfg-key-price").value);
+        const safeRef = parseSafeNumber(document.getElementById("cfg-ref-price").value);
+
+        setKeyPrice(safeKey);
+        setRefPrice(safeRef);
         localStorage.setItem("showKeys", document.getElementById("cfg-show-keys").checked);
         localStorage.setItem("showRef", document.getElementById("cfg-show-ref").checked);
         localStorage.setItem("hideItemDetails", document.getElementById("cfg-hide-details").checked);
         localStorage.setItem("hideEntireInfo", document.getElementById("cfg-hide-all").checked);
         localStorage.setItem("enableNavigator", document.getElementById("cfg-enable-nav").checked);
-        // NEW: Save the PriceDB setting
         localStorage.setItem("enablePriceDB", document.getElementById("cfg-enable-pdb").checked);
         location.reload();
     };
 }
 // ===== PRICE PARSER =====
 
-function parsePrice(text) {
-    if (!text) return null;
 
-    // ONLY take first line (ignore after-fee price)
-    const firstLine = text.split("\n")[0];
+function parseSafeNumber(input) {
+    if (!input) return 0;
+    if (typeof input === "number") return input;
 
-    const num = firstLine.replace(/[^0-9.]/g, "");
-    return parseFloat(num);
+    const firstLine = input.toString().split("\n")[0];
+
+    // Strip everything except digits, dots, and commas (removes €, $, letters, etc.)
+    let clean = firstLine.replace(/[^\d.,]/g, '');
+    // CASE 1: Contains BOTH a dot and a comma (e.g., "1.234,56" or "1,234.56")
+    if (clean.includes(',') && clean.includes('.')) {
+        const lastComma = clean.lastIndexOf(',');
+        const lastDot = clean.lastIndexOf('.');
+        if (lastComma > lastDot) {
+            clean = clean.replace(/\./g, '').replace(',', '.');
+        } else {
+            clean = clean.replace(/,/g, '');
+        }
+    }
+    // CASE 2: Contains ONLY commas (e.g., "67,846" vs "2,50")
+    else if (clean.includes(',')) {
+        const parts = clean.split(',');
+        const lastPart = parts[parts.length - 1];
+        if (parts.length > 2 || lastPart.length === 3) {
+            clean = clean.replace(/,/g, '');
+        } else {
+            clean = clean.replace(',', '.');
+        }
+    }
+    // CASE 3: Contains ONLY dots (e.g., "25.000" vs "2.50")
+    else if (clean.includes('.')) {
+        const parts = clean.split('.');
+        const lastPart = parts[parts.length - 1];
+        if (parts.length > 2 || lastPart.length === 3) {
+            clean = clean.replace(/\./g, '');
+        }
+    }
+
+    // Final conversion to a standard JavaScript float
+    return parseFloat(clean) || 0;
 }
 
 // ===== ADD KEY DISPLAY =====
@@ -1582,7 +1622,7 @@ function addKeyPrices() {
         const priceEl = row.querySelector(".market_listing_price");
         if (!priceEl) return;
 
-        const price = parsePrice(priceEl.innerText);
+        const price = parseSafeNumber(priceEl.innerText);
         if (!price) return;
 
         const keyPrice = getKeyPrice();
@@ -1608,17 +1648,13 @@ function addKeyPrices() {
 }
 // ===== OBSERVER =====
 
-// ===== IMPROVED OBSERVER =====
 
 let timeout = null;
 const keyObserver = new MutationObserver(() => {
-    // Debounce: Wait 200ms after the last change before running
-    // This prevents the "feedback loop" and UI lag
     clearTimeout(timeout);
     timeout = setTimeout(() => {
         addKeyPrices();
         addPriceDBButton();
-        // Also re-run your button/link creation here if needed
     }, 200);
 });
 
@@ -1635,7 +1671,6 @@ function startObserving() {
 }
 // This runs the check every 500ms until the button is successfully added
 const initPriceDB = setInterval(() => {
-    // Check if we're on a TF2 listing page
     if (window.location.href.includes('/listings/440/')) {
         addPriceDBButton();
     }
