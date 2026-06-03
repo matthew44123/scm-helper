@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         SCM -> bptf link.
+// @name         scm-helper
 // @namespace    tf2-helper
 // @version      0.4.11
-// @description  Adds backpack.tf button with correct unusual effect links
+// @description  adds verious links and indcators for tf2 listings
 // @match        https://steamcommunity.com/market/*
 // @match        https://steamcommunity.com/market/listings/440/*
 // @grant        unsafeWindow
