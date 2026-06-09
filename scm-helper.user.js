@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         scm-helper
 // @namespace    tf2-helper
-// @version      0.4.12
+// @version      0.5.0
 // @description  adds verious links and indcators for tf2 listings
 // @match        https://steamcommunity.com/market/*
 // @match        https://steamcommunity.com/market/listings/440/*
@@ -13,16 +13,17 @@
 // @connect      sku.pricedb.io
 // ==/UserScript==
 //==================================================================
-//                CHANGELOGCHANGELOG
-//                CHANGELOGCHANGELOG
-//                CHANGELOGCHANGELOG
+//                CHANGELOGCHANGELOG 0.5.0
+//*Added Goku
+//*Changed the Ref diplay to mixed display when ref value over 1key
+//*Changed the button colors
+//*Added Classifieds button for unusual hats/taunts and kits/fabs.
+//*Added MCS button for unusual hats/taunts
+//
+//                CHANGELOGCHANGELOG 0.4.12
 // *I added all those redutant lines to tell you that I removed all those reduntant lines in the code xd
 // *Change the parsing function to detect comma decimal sepearator properly
-//
-//
-//
-//
-//
+//===================================================================
 (function () {
     'use strict';
 const WEAPON_INDEX_MAP = {
@@ -172,35 +173,35 @@ const WEAPON_INDEX_MAP = {
     "Shooting Star" : 30665,
     "Huo-Long Heater" : 811,
 };
-    const EFFECT_MAP = {
+const EFFECT_MAP = {
                     "Invalid Particle": 0,
                     "Particle 1": 1,
                     "Flying Bits": 2,
                     "Nemesis Burst": 3,
                     "Community Sparkle": 4,
                     "Green Confetti": 6,
-                    "Purple Confetti": 7,
-                    "Haunted Ghosts": 8,
-                    "Green Energy": 9,
-                    "Purple Energy": 10,
-                    "Circling TF Logo": 11,
-                    "Massed Flies": 12,
-                    "Burning Flames": 13,
-                    "Scorching Flames": 14,
-                    "Searing Plasma": 15,
-                    "Vivid Plasma": 16,
-                    "Sunbeams": 17,
-                    "Circling Peace Sign": 18,
-                    "Circling Heart": 19,
-                    "Map Stamps": 20,
-                    "Genteel Smoke": 28,
-                    "Stormy Storm": 29,
-                    "Blizzardy Storm": 30,
-                    "Nuts n' Bolts": 31,
-                    "Orbiting Planets": 32,
-                    "Orbiting Fire": 33,
-                    "Bubbling": 34,
-                    "Smoking": 35,
+                    "Purple Confetti": 7,//                                              ⠈⠙⠀⠀⠀⠀⠀⠀⢀⠀⣀⡀⢠⣿⠟⢛⠃⠀⠀⢣⠀⠀⢀⣿⠀⠀⢀⠀⣿⡆⠀⠋⠀⠀⣿⣴⣿⠏⠀⠀⢈⡇⡆⢠⢟⢸⣿⣿⣿⣿
+                    "Haunted Ghosts": 8,//                                                ⠀⠀⠀⠀⠀⠀⠀⠀⣼⣶⣿⣇⣘⡇⠀⠀⠀⠀⠸⡆⠣⠀⠸⡇⠀⠀⢸⡆⡜⣷⠀⠀⠀⢠⡙⠉⠀⠀⠀⠀⣾⢧⠁⣼⢸⠘⣿⣿⣿⣿
+                    "Green Energy": 9,//                                                  ⡀⠀⠀⠀⠀⠀⠀⠠⠟⣃⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡃⠱⡀⠁⠀⠀⠀⣇⡇⣿⡆⠀⠀⠈⠁⠀⠀⠀⠀⣸⡿⡘⢠⡏⠈⠀⣿⣿⠟⣿
+                    "Purple Energy": 10,//                                                ⣧⠀⠀⠀⠀⠀⠀⣀⣸⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢧⠐⠜⢄⠀⠀⠀⠙⣿⠘⣟⠄⠀⠀⠀⠀⠀⠀⣸⠟⣴⠃⣾⠃⣀⠀⣿⢁⢀⣿
+                    "Circling TF Logo": 11,//                                             ⢿⠄⠀⠀⠀⠀⠈⣿⡿⢿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢇⠈⢄⠀⠀⠀⠀⠘⣇⢹⡄⠀⠀⠠⠀⠀⣰⡏⠀⡏⢰⡿⠀⠁⠸⢡⡎⢸⣿
+                    "Massed Flies": 12,//                                               ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⢢⠀⠀⠀⠈⠂⠀⠀⠀⠀⠸⡀⠘⠄⠻⢶⡄⠁⢀⡼⠟⠀⣸⠀⠋⠀⢀⢄⠔⡟⠀⣿⣿
+                    "Burning Flames": 13,//                                               ⣦⠀⠀⠀⠀⠀⠀⠒⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⢀⠀⠡⢔⡊⠭⠀⡀⠀⢋⣤⠀⢰⠇⠀⣠⠞⡡⠃⡼⠁⢸⣿⣿
+                    "Scorching Flames": 14,//                                             ⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠀⣠⠞⠋⣴⠖⣡⣞⠉⠀⠀⠀⢹⡏⠀⢀⠀⠛⣥⡞⢁⠎⠀⢀⣿⣿⣿
+                    "Searing Plasma": 15,//                                               ⠿⠙⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡿⠁⠀⢸⢃⡜⠁⠀⠀⠀⠀⠀⢸⠃⡠⠈⠣⣠⠀⡠⠁⠀⠠⢋⡩⠟⣻
+                    "Vivid Plasma": 16,//                                                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠀⠀⠀⠀⠀⠀⠀⠀⣤⣶⡄⠀⠈⠀⠃⠀⠀⣿⠀⠀⢀⣴⠞⠋⢀⣼⣿
+                    "Sunbeams": 17,//                                                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⠀⠀⣠⠀⠀⠠⠋⠀⢰⢋⣠⠞⣡⣿⣿⣿
+                    "Circling Peace Sign": 18,//                                          ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠃⠀⠀⠐⣄⠀⣹⠟⠁⠀⡈⠕⠂⢀⠀⠠⡇⠘⠉⢀⣾⣿⣿⣿⣿
+                    "Circling Heart": 19,//                                               ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠠⠄⠀⠘⢿⡇⠀⡀⠈⠴⢋⣤⠇⢀⡄⠀⠀⠚⢻⣿⣿⣿⣿⣿
+                    "Map Stamps": 20,//                                                   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢤⡄⠀⢀⡀⠀⢀⣠⣴⡟⠀⠠⠴⣶⣾⣿⣿⣿⣿⣿⣿⣿
+                    "Genteel Smoke": 28,//                                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⠟⢠⣇⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿
+                    "Stormy Storm": 29,//                                                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣒⣿⠿⠋⢀⣾⣿⢀⡀⠀⠈⠙⣿⣿⣿⣿⡟⠛
+                    "Blizzardy Storm": 30,//                                              ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠁⢀⠀⣼⠋⣿⠀⠙⠷⣄⡀⠈⠉⠉⠀⠀⠀
+                    "Nuts n' Bolts": 31,//                                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢆⠀⠀⠀⠀⣠⠀⢠⡎⢠⡏⠀⠟⠀⠀⠀⠈⠻⠆⠀⠀⣀⣀⠀
+                    "Orbiting Planets": 32,//                                             ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡆⠀⠀⠀⠃⠀⠘⠀⣾⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⡇
+                    "Orbiting Fire": 33,//                                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠤⠤⠴⠶⣶⣶⣭⣄⣀⠀⠀⠀⢀⣈⣫⣤⣤⣤⣤⣤⣄⣀⠀⠀⠀⢸⣿⣿⠁
+                    "Bubbling": 34,//                                                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠒⠒⠛⠛⠿⣿⣿⣿⠉⠉⠉⠉⡉⠛⠿⢷⣶⣶⠶⠀⠀⠀⠀⣿⣿⡇⠀
+                    "Smoking": 35,//                                                      ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⢰⣿⣿⠀⣸
                     "Steaming": 36,
                     "Flaming Lantern": 37,
                     "Cloudy Moon": 38,
@@ -713,8 +714,8 @@ const SHEEN_COLORS = {
     "Deadly Daffodil": "#E6E600",
     "Manndarin": "#FF7E00",
     "Mean Green": "#4DFF4D",
-    "Agonizing Emerald": "#00CC00", 
-    "Villainous Violet": "#9933FF", 
+    "Agonizing Emerald": "#00CC00",
+    "Villainous Violet": "#9933FF",
     "Hot Rod": "#FF66FF"
 };
 const WP_WEAPONS = {
@@ -896,7 +897,7 @@ function addButtons() {
         mainWrapper.className = "bptf-btn-container";
         mainWrapper.style.cssText = "display: flex; flex-direction: column; gap: 4px; margin-top: 4px;";
 
-        // ROW 1: PRIMARY (BPTF, STN, EFFECT)
+        // ROW 1: PRIMARY (BPTF, CLS, STN, MCO, EFFECT)
         const row1 = document.createElement("div");
         row1.style.cssText = "display: flex; gap: 4px; align-items: center;";
 
@@ -907,8 +908,22 @@ function addButtons() {
         bptfBtn.textContent = "BPTF";
         bptfBtn.href = `https://backpack.tf/stats/${encodeURIComponent(quality)}/${encodeURIComponent(itemName)}/Tradable/Craftable${effectId ? '/' + effectId : ''}`;
         bptfBtn.target = "_blank";
-        bptfBtn.style.cssText = btnStyle + "background: #5c7e10;";
+        bptfBtn.style.cssText = btnStyle + "background: #587a91;";
         row1.appendChild(bptfBtn);
+
+        // Classifieds (Cls) Button (Only for non-skins)
+        if (!isSkin) {
+            let clsUrl = `https://backpack.tf/classifieds?item=${encodeURIComponent(itemName)}&quality=5`;
+            if (effectId) clsUrl += `&particle=${effectId}`;
+            if (quality === "Strange Unusual") clsUrl += "&elevated=11";
+
+            const clsBtn = document.createElement("a");
+            clsBtn.textContent = "CLS";
+            clsBtn.href = clsUrl;
+            clsBtn.target = "_blank";
+            clsBtn.style.cssText = btnStyle + "background: #395163;";
+            row1.appendChild(clsBtn);
+        }
 
         // STN Button
         if (effectName) {
@@ -917,8 +932,31 @@ function addButtons() {
             stnBtn.textContent = "STN";
             stnBtn.href = `https://stntrading.eu/item/tf2/${stnQuery}`;
             stnBtn.target = "_blank";
-            stnBtn.style.cssText = btnStyle + "background: #2b567a;";
+            stnBtn.style.cssText = btnStyle + "background: #22b14c;";
             row1.appendChild(stnBtn);
+
+            // NEW: Mannco.store Button (Only for non-skin hats & taunts)
+            if (!isSkin) {
+                // Inline URL cleaner: handles case conversion, drops special characters, and fixes hyphens
+                const cleanManncoStr = (str) => {
+                    return str.toLowerCase()
+                        .replace(/[^a-z0-9\s-]/g, "") // Keep only alphanumeric characters, spaces, and existing hyphens
+                        .trim()
+                        .replace(/\s+/g, "-")// Swap all spaces out for a single hyphen
+                        .replace(/-+/g, "-");// Safety collapse to prevent double hyphens ("--")
+                };
+
+                const mEffect = cleanManncoStr(effectName);
+                const mQuality = cleanManncoStr(quality);
+                const mHat = cleanManncoStr(itemName);
+
+                const manncoBtn = document.createElement("a");
+                manncoBtn.textContent = "MCS";
+                manncoBtn.href = `https://mannco.store/item/440-${mEffect}-${mQuality}-${mHat}`;
+                manncoBtn.target = "_blank";
+                manncoBtn.style.cssText = btnStyle + "background: #2596be;"; //
+                row1.appendChild(manncoBtn);
+            }
 
             const effectBadge = document.createElement("span");
             effectBadge.style.cssText = "padding: 1px 5px; font-size: 10px; border-radius: 2px; background: #222; color: #fff; border: 1px solid #444; font-weight: bold;";
@@ -930,7 +968,7 @@ function addButtons() {
 
         // ROW 2: TOOLS & ATTRIBUTES (WP, STN-WP, KS INFO)
         const row2 = document.createElement("div");
-        row2.className = "bptf-row-secondary"; // We'll target this in the KS function
+        row2.className = "bptf-row-secondary";
         row2.style.cssText = "display: flex; gap: 4px; align-items: center; flex-wrap: wrap;";
 
         if (isSkin && itemName.includes(" | ") && effectName) {
@@ -949,7 +987,7 @@ function addButtons() {
 
             // STN (War Paint)
             const wpStnBtn = document.createElement("a");
-            wpStnBtn.textContent = "STNWP"
+            wpStnBtn.textContent = "STNWP";
             const wpStnQuery = ("Unusual " + effectName + " " + nameParts[0] + " War Paint " + wear).replace(/\s+/g, '+');
             wpStnBtn.href = `https://stntrading.eu/item/tf2/${wpStnQuery}`;
             wpStnBtn.target = "_blank";
@@ -968,7 +1006,6 @@ function addKillstreakButtons() {
         if (row.dataset.ksProcessed) return;
         const nameEl = row.querySelector(".market_listing_item_name");
 
-        // 1. UPDATE: Allow both Professional and Specialized items
         if (!nameEl) return;
         const isPro = nameEl.textContent.includes("Professional Killstreak");
         const isSpec = nameEl.textContent.includes("Specialized Killstreak");
@@ -1002,6 +1039,7 @@ function addKillstreakButtons() {
                 const isWeapon = !isKit && !isFab;
 
                 let url = "";
+                let clsUrl = ""; // NEW: Variable to hold the Classifieds link
 
                 if (isWeapon) {
                     let quality = "Unique";
@@ -1018,15 +1056,13 @@ function addKillstreakButtons() {
                         itemName = fullName.replace(/^Genuine\s+/, "");
                     }
 
-                    // --- NEW: SKIN DETECTION LOGIC ---
+                    // --- SKIN DETECTION LOGIC ---
                     const wears = ["(Factory New)", "(Minimal Wear)", "(Field-Tested)", "(Well-Worn)", "(Battle Scarred)"];
                     const isSkin = wears.some(wear => itemName.toLowerCase().includes(wear.toLowerCase()));
 
                     if (isSkin) {
-                        // Change Unique to Decorated Weapon (but leave Strange as Strange)
                         if (quality === "Unique") quality = "Decorated Weapon";
 
-                        // Inject the " | " divider if it's missing
                         if (!itemName.includes("|")) {
                             const weaponKeys = Object.keys(WEAPON_INDEX_MAP).sort((a, b) => b.length - a.length);
                             let foundWeapon = weaponKeys.find(w => itemName.includes(w));
@@ -1038,10 +1074,10 @@ function addKillstreakButtons() {
                             }
                         }
                     }
-                    // ---------------------------------
 
                     url = `https://backpack.tf/stats/${quality}/${encodeURIComponent(itemName)}/Tradable/Craftable`;
                 } else {
+                    // This block targets ONLY Kits and Fabricators
                     let weaponName = fullName
                         .replace("Professional Killstreak ", "")
                         .replace("Specialized Killstreak ", "")
@@ -1052,25 +1088,41 @@ function addKillstreakButtons() {
                     const weaponIndex = WEAPON_INDEX_MAP[weaponName];
 
                     if (weaponIndex) {
+                        const ksTier = isPro ? "3" : "2";
                         if (isKit) {
-                            const ksTier = isPro ? "3" : "2";
                             const ksName = isPro ? "Professional" : "Specialized";
                             url = `https://backpack.tf/stats/Unique/${ksName}%20Killstreak%20Kit/Tradable/Non-Craftable/${ksTier}-${weaponIndex}`;
                         } else if (isFab) {
                             const fabDef = isPro ? "6526" : "6523";
                             url = `https://backpack.tf/stats/Unique/Fabricator/Tradable/Craftable/${fabDef}-6-${weaponIndex}`;
                         }
+
+                        // NEW: Generate the search query for the custom Classifieds link
+                        const craftableValue = isKit ? "-1" : "1";
+                        clsUrl = `https://backpack.tf/classifieds?item=${encodeURIComponent(weaponName)}&craftable=${craftableValue}&killstreak_tier=${ksTier}&item_type=target`;
                     }
                 }
 
+                // Append standard stats BPTF button
                 if (url) {
                     const ksBtn = document.createElement("a");
                     ksBtn.textContent = "BPTF";
                     ksBtn.className = "ks-btn";
-                    ksBtn.style.cssText = "padding: 1px 5px; background: #5c7e10; color: #fff; font-size: 10px; border-radius: 2px; text-decoration: none; font-weight: bold;";
+                    ksBtn.style.cssText = "padding: 1px 5px; background: #587a91; color: #fff; font-size: 10px; border-radius: 2px; text-decoration: none; font-weight: bold;";
                     ksBtn.href = url;
                     ksBtn.target = "_blank";
                     secondaryRow.appendChild(ksBtn);
+                }
+
+                // NEW: Append Classifieds button immediately after BPTF if it's a Kit/Fabricator
+                if (clsUrl) {
+                    const clsBtn = document.createElement("a");
+                    clsBtn.textContent = "CLS";
+                    clsBtn.className = "ks-cls-btn";
+                    clsBtn.style.cssText = "padding: 1px 5px; background: #395163; color: #fff; font-size: 10px; border-radius: 2px; text-decoration: none; font-weight: bold;";
+                    clsBtn.href = clsUrl;
+                    clsBtn.target = "_blank";
+                    secondaryRow.appendChild(clsBtn);
                 }
             }
         }
@@ -1173,7 +1225,6 @@ async function addPriceDBButton() {
         injectSmartNavigator(itemData);
     }
 
-    // 7. Update the main button with actual data
     const skuString = itemData.sku;
     if (!skuString) return;
 
@@ -1287,7 +1338,6 @@ function injectSmartNavigator(skuData) {
 
         currentWeapon = allWeapons.find(w => skuData.name.includes(w)) || "";
 
-        // NEW: Safely strip ALL qualities so they don't get trapped in the base name
         paintName = skuData.name
             .replace(currentWeapon, "")
             .replace(/Strange |Festivized |Professional Killstreak |Specialized Killstreak |Killstreak |Unusual |Vintage |Genuine |Haunted |Collector's /g, "")
@@ -1608,6 +1658,8 @@ function parseSafeNumber(input) {
 
 // ===== ADD KEY DISPLAY =====
 
+// ===== ADD KEY DISPLAY =====
+
 function addKeyPrices() {
     const rows = document.querySelectorAll(".market_listing_row");
     const showKeys = getSetting("showKeys", true);
@@ -1628,18 +1680,35 @@ function addKeyPrices() {
         const keyPrice = getKeyPrice();
         const refPerKey = getRefPrice();
         const keys = price / keyPrice;
-        const ref = keys * refPerKey;
 
         const div = document.createElement("div");
         div.className = "price-converter-display";
         div.style.cssText = "font-size: 11px; margin-bottom: 2px; line-height: 1.1;";
 
         let html = "";
+
+        // 1. Standard Key Display (e.g., ≈ 5.50 keys)
         if (showKeys) {
             html += `<div style="color: #9ecbff;">≈ ${keys.toFixed(2)} keys</div>`;
         }
+
+        // 2. Compact Mixed Metal Display (e.g., ≈ 5 keys 20 ref OR ≈ 20 ref)
         if (showRef) {
-            html += `<div style="color: #dedede;">≈ ${ref.toFixed(1)} ref</div>`;
+            const totalRef = Math.round((keys * refPerKey) * 10) / 10;
+
+            const mixedKeys = Math.floor(totalRef / refPerKey);
+            const mixedRef = Math.round((totalRef % refPerKey) * 10) / 10;
+
+            let refParts = [];
+
+
+            if (mixedKeys > 0) {
+                refParts.push(`${mixedKeys} key${mixedKeys > 1 ? 's' : ''}`);
+            }
+            if (mixedRef > 0 || mixedKeys === 0) {
+                refParts.push(`${mixedRef} ref`);
+            }
+          html += `<div style="color: #dedede;">≈ ${refParts.join(" ")}</div>`;
         }
 
         div.innerHTML = html;
