@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         scm-helpertestbuild
+// @name         scm-helper
 // @namespace    tf2-helper
-// @version      0.5.1
+// @version      0.5.2
 // @description  adds verious links and indcators for tf2 listings
 // @match        https://steamcommunity.com/market/*
 // @match        https://steamcommunity.com/market/listings/440/*
