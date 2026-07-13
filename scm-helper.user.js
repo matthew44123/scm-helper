@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         scm-helper
+// @name         scm-helpertestbuild
 // @namespace    tf2-helper
-// @version      0.5.0
+// @version      0.5.1
 // @description  adds verious links and indcators for tf2 listings
 // @match        https://steamcommunity.com/market/*
 // @match        https://steamcommunity.com/market/listings/440/*
@@ -13,16 +13,17 @@
 // @connect      sku.pricedb.io
 // ==/UserScript==
 //==================================================================
+//                CHANGELOGCHANGELOG 0.5.1
+//*add filter to fetch unusualifier skus and generate correct link
+//*Fixed some bugs for the navigators.
+//*added feature to scan for filled parts
+//
 //                CHANGELOGCHANGELOG 0.5.0
 //*Added Goku
 //*Changed the Ref diplay to mixed display when ref value over 1key
 //*Changed the button colors
 //*Added Classifieds button for unusual hats/taunts and kits/fabs.
 //*Added MCS button for unusual hats/taunts
-//
-//                CHANGELOGCHANGELOG 0.4.12
-// *I added all those redutant lines to tell you that I removed all those reduntant lines in the code xd
-// *Change the parsing function to detect comma decimal sepearator properly
 //===================================================================
 (function () {
     'use strict';
@@ -172,6 +173,128 @@ const WEAPON_INDEX_MAP = {
     "Gunslinger" : 142,
     "Shooting Star" : 30665,
     "Huo-Long Heater" : 811,
+};
+const TAUNT_INDEX_MAP = {
+    "High Five!": 167,
+    "Director's Vision": 438,
+    "Schadenfreude": 463,
+    "Meet the Medic": 477,
+    "Shred Alert": 1015,
+    "Square Dance": 1106,
+    "Flippin' Awesome": 1107,
+    "Buy a Life": 1108,
+    "Results Are In": 1109,
+    "Rock, Paper, Scissors": 1110,
+    "Skullcracker": 1111,
+    "Party Trick": 1112,
+    "Fresh Brewed Victory": 1113,
+    "Spent Well Spirits": 1114,
+    "Rancho Relaxo": 1115,
+    "I See You": 1116,
+    "Battin' a Thousand": 1117,
+    "Conga": 1118,
+    "Deep Fried Desire": 1119,
+    "Oblooterated": 1120,
+    "Kazotsky Kick": 1157,
+    "Mannrobics": 1162,
+    "Carlton": 1168,
+    "Victory Lap": 1172,
+    "Table Tantrum": 1174,
+    "Boiling Point": 1175,
+    "Yeti Punch": 1182,
+    "Yeti Smash": 1183,
+    "Panzer Pants": 1196,
+    "Scooty Scoot": 1197,
+    "Pool Party": 30570,
+    "Boston Breakdance": 30572,
+    "Killer Solo": 30609,
+    "Most Wanted": 30614,
+    "Box Trot": 30615,
+    "Proletariat Posedown": 30616,
+    "Bucking Bronco": 30618,
+    "Burstchester": 30621,
+    "Bad Pipes": 30671,
+    "Zoomin' Broom": 30672,
+    "Soldier's Requiem": 30673,
+    "Fubar Fanfare": 30761,
+    "Disco Fever": 30762,
+    "Balloonibouncer": 30763,
+    "Second Rate Sorcery": 30816,
+    "Didgeridrongo": 30839,
+    "Scotsmann's Stagger": 30840,
+    "Dueling Banjo": 30842,
+    "Russian Arms Race": 30843,
+    "Soviet Strongarm": 30844,
+    "Jumping Jack": 30845,
+    "Headcase": 30876,
+    "Trackman's Touchdown": 30917,
+    "Surgeon's Squeezebox": 30918,
+    "Skating Scorcher": 30919,
+    "Bunnyhopper": 30920,
+    "Runner's Rhythm": 30921,
+    "Luxury Lounge": 30922,
+    "Pooped Deck": 31153,
+    "Time Out Therapy": 31154,
+    "Rocket Jockey": 31155,
+    "Boston Boarder": 31156,
+    "Scorcher's Solo": 31157,
+    "Texas Truckin'": 31160,
+    "Spin-to-Win": 31161,
+    "Fist Bump": 31162,
+    "Drunken Sailor": 31201,
+    "Profane Puppeteer": 31202,
+    "Mannbulance!": 31203,
+    "Bare Knuckle Beatdown": 31207,
+    "Homerunner's Hobby": 31233,
+    "Doctor's Defibrillators": 31236,
+    "Shooter's Stakeout": 31237,
+    "Hot Wheeler": 31239,
+    "Texas Twirl 'Em": 31286,
+    "Scaredy-Cat!": 31288,
+    "Crypt Creeper": 31289,
+    "Travel Agent": 31290,
+    "Drunk Mann's Cannon": 31291,
+    "Shanty Shipmate": 31292,
+    "Russian Rubdown": 31320,
+    "Tailored Terminal": 31321,
+    "Roasty Toasty": 31322,
+    "Star-Spangled Strategy": 31347,
+    "Killer Joke": 31348,
+    "Head Doctor": 31349,
+    "Teufort Tango": 31351,
+    "Road Rager": 31352,
+    "Killer Signature": 31354,
+    "Roar O'War": 31380,
+    "Neck Snap": 31381,
+    "Borrowed Bones": 31382,
+    "Cheers!": 31412,
+    "Mourning Mercs": 31413,
+    "Foul Play": 31414,
+    "Can It!": 31438,
+    "Cremators Condolences": 31439,
+    "Straight Shooter Tutor": 31440,
+    "Unleashed Rage": 31441,
+    "Crushing Defeat": 31465,
+    "Peace Out": 31466,
+    "Commending Clap": 31467,
+    "Punchline": 31468,
+    "Curtain Call": 31491,
+    "Peace!": 31492,
+    "Fore-Head Slice": 31493,
+    "Final Score": 31518,
+    "Bear Hug": 31519,
+    "Texan Trickshot": 31520,
+    "Flying Colors": 31521,
+    "Heartbreaker": 31545,
+    "Healthcare Hog": 31546,
+    "Ring King": 31547,
+    "Dead Mann's Drink": 31576,
+    "Critical Fail": 31577,
+    "Chairholder": 31578,
+    "Circuit Breaker": 31602,
+    "Buffoon's Bivouac": 31603,
+    "Faux-calization": 31604,
+    "Friendly Fire": 31605,
 };
 const EFFECT_MAP = {
                     "Invalid Particle": 0,
@@ -742,6 +865,15 @@ const KILLSTREAKER_ICONS = {
     "Hypno-Beam": "🌀"
 };
 const HIGH_TIER_KILLSTREAKERS = ["Fire Horns", "Tornado"];
+const PART_GRADES = {
+    reinforced: ["Robot Emotion Detector", "Robot Bomb Stabilizer", "Robot Humor Suppression Pump"],
+    battleWorn: ["Robot Taunt Processor", "Robot Money Furnace", "Robot KB-808"],
+    pristine: ["Robot Brainstorm Bulb", "Robot Currency Digester"]
+};
+const FABRICATOR_REQUIREMENTS = {
+    specialized: { weapons: 1, battleWorn: 24, reinforced: 5, pristine: 0 },
+    professional: { weapons: 2, battleWorn: 16, reinforced: 6, pristine: 3 }
+};
 const style = document.createElement('style');
 style.textContent = `
     .hiding-info-box {
@@ -796,6 +928,36 @@ function getKillstreakAttributes(asset) {
         }
     }
     return attributes;
+}
+function getRequiredMaterials(asset) {
+    let required = { weapons: 0, reinforced: 0, battleWorn: 0, pristine: 0 };
+    if (!asset || !asset.descriptions) return required;
+
+    for (let desc of asset.descriptions) {
+        if (!desc.value) continue;
+
+        // Parse "[part name] x [quantity]" pattern from Steam descriptions
+        const partMatch = desc.value.match(/([^,\n<]+?)\s*x\s*(\d+)/i);
+        if (!partMatch) continue;
+
+        const partName = partMatch[1].trim();
+        const quantity = parseInt(partMatch[2], 10);
+
+        // Check for weapon requirement
+        if (partName.includes("Killstreak Item") || partName.includes("Killstreak")) {
+            required.weapons += quantity;
+            continue;
+        }
+
+        // Check each grade
+        for (let grade of ['reinforced', 'battleWorn', 'pristine']) {
+            if (PART_GRADES[grade].some(name => partName.includes(name))) {
+                required[grade] += quantity;
+                break;
+            }
+        }
+    }
+    return required;
 }
 // Helper to get item name safely
 function getSteamItemName() {
@@ -879,6 +1041,18 @@ function addButtons() {
             }
         }
 
+        // Detect Unusualifiers
+        const isUnusualifier = itemName.includes("Unusualifier");
+        let tauntId = null;
+        let tauntCleanName = "";
+        if (isUnusualifier) {
+            tauntCleanName = itemName
+                .replace(/^Taunt: /, "")
+                .replace(/ Unusualifier$/, "")
+                .trim();
+            tauntId = TAUNT_INDEX_MAP[tauntCleanName] || null;
+        }
+
         const listingId = row.id.replace("listing_", "");
         const listing = unsafeWindow.g_rgListingInfo?.[listingId];
         let effectId = null, effectName = null;
@@ -906,13 +1080,23 @@ function addButtons() {
         // BPTF Button
         const bptfBtn = document.createElement("a");
         bptfBtn.textContent = "BPTF";
-        bptfBtn.href = `https://backpack.tf/stats/${encodeURIComponent(quality)}/${encodeURIComponent(itemName)}/Tradable/Craftable${effectId ? '/' + effectId : ''}`;
+        bptfBtn.href = isUnusualifier
+            ? `https://backpack.tf/stats/Unusual/Unusualifier/Tradable/Non-Craftable/${tauntId || ''}`
+            : `https://backpack.tf/stats/${encodeURIComponent(quality)}/${encodeURIComponent(itemName)}/Tradable/Craftable${effectId ? '/' + effectId : ''}`;
         bptfBtn.target = "_blank";
         bptfBtn.style.cssText = btnStyle + "background: #587a91;";
         row1.appendChild(bptfBtn);
 
-        // Classifieds (Cls) Button (Only for non-skins)
-        if (!isSkin) {
+        // Classifieds (Cls) Button
+        if (isUnusualifier && tauntCleanName) {
+            // Unusualifier-specific CLS link
+            const clsBtn = document.createElement("a");
+            clsBtn.textContent = "CLS";
+            clsBtn.href = `https://backpack.tf/classifieds?item=${encodeURIComponent(tauntCleanName)}&item_type=target`;
+            clsBtn.target = "_blank";
+            clsBtn.style.cssText = btnStyle + "background: #395163;";
+            row1.appendChild(clsBtn);
+        } else if (!isSkin) {
             let clsUrl = `https://backpack.tf/classifieds?item=${encodeURIComponent(itemName)}&quality=5`;
             if (effectId) clsUrl += `&particle=${effectId}`;
             if (quality === "Strange Unusual") clsUrl += "&elevated=11";
@@ -1157,6 +1341,41 @@ function addKillstreakButtons() {
                 indicator.innerHTML = html;
                 secondaryRow.appendChild(indicator);
             }
+
+            // Prefilled indicator for Fabricators
+            const fullName = nameEl.textContent.trim();
+            const isFab = fullName.includes("Fabricator");
+            if (isFab && (isPro || isSpec)) {
+                const requirements = getRequiredMaterials(asset);
+                const defaults = isPro ? FABRICATOR_REQUIREMENTS.professional : FABRICATOR_REQUIREMENTS.specialized;
+
+                const prefilled = {
+                    reinforced: defaults.reinforced - requirements.reinforced,
+                    battleWorn: defaults.battleWorn - requirements.battleWorn,
+                    pristine: defaults.pristine - requirements.pristine,
+                    weapons: defaults.weapons - requirements.weapons
+                };
+
+                // Build indicator parts for categories that have prefilled amounts
+                let prefilledParts = [];
+                if (prefilled.reinforced > 0) prefilledParts.push(`-${prefilled.reinforced} R`);
+                if (prefilled.battleWorn > 0) prefilledParts.push(`-${prefilled.battleWorn} B`);
+                if (prefilled.pristine > 0) prefilledParts.push(`-${prefilled.pristine} P`);
+                if (prefilled.weapons > 0) prefilledParts.push(`-${prefilled.weapons} wep`);
+
+                if (prefilledParts.length > 0) {
+                    // Check glow conditions
+                    const shouldGlow = prefilled.battleWorn > 10 || prefilled.pristine >= 2 || prefilled.weapons > 0;
+                    const glowStyle = shouldGlow
+                        ? "color: #FFD700; font-weight: bold; text-shadow: 0px 0px 4px rgba(255, 215, 0, 0.6); border: 1px solid rgba(255, 215, 0, 0.4);"
+                        : "color: #aaa;";
+
+                    const prefilledIndicator = document.createElement("span");
+                    prefilledIndicator.style.cssText = `display: flex; align-items: center; gap: 2px; padding: 1px 4px; font-size: 10px; border-radius: 2px; background: rgba(0,0,0,0.3); border: 1px solid #444; ${glowStyle}`;
+                    prefilledIndicator.textContent = prefilledParts.join(" ");
+                    secondaryRow.appendChild(prefilledIndicator);
+                }
+            }
         }
     });
 }
@@ -1232,7 +1451,7 @@ async function addPriceDBButton() {
     const defindex = skuParts[0];
 
     // --- SCM KIT FIX ---
-    const kitDefindexes = ["6523", "6526", "6527"];
+    const kitDefindexes = ["6523", "6526", "6527","9258"];
     if (kitDefindexes.includes(defindex) && !skuParts.includes('uncraftable')) {
         skuParts.splice(2, 0, 'uncraftable');
     }
@@ -1341,7 +1560,7 @@ function injectSmartNavigator(skuData) {
         paintName = skuData.name
             .replace(currentWeapon, "")
             .replace(/Strange |Festivized |Professional Killstreak |Specialized Killstreak |Killstreak |Unusual |Vintage |Genuine |Haunted |Collector's /g, "")
-            .replace(/\(.*\)/, "")
+            .replace(/\s*\((Factory New|Minimal Wear|Field-Tested|Well-Worn|Battle Scarred)\)\s*$/, "")
             .trim();
     }
 
@@ -1451,7 +1670,7 @@ function injectSmartNavigator(skuData) {
             // Allows Fixed Skins (like Night Owl) to cleanly swap wear
             let finalWear = "";
             if (skuData.wear) {
-                baseItemName = baseItemName.replace(/\(.*\)/, "").trim();
+                baseItemName = baseItemName.replace(/\s*\((Factory New|Minimal Wear|Field-Tested|Well-Worn|Battle Scarred)\)\s*$/, "").trim();
                 finalWear = " " + wear;
             }
 
@@ -1463,6 +1682,7 @@ function injectSmartNavigator(skuData) {
 }
 
 // ===== UI CUSTOMIZATION =====
+
 
 function applyVisibilitySettings() {
     const hideDetails = getSetting("hideItemDetails", false);
@@ -1656,7 +1876,6 @@ function parseSafeNumber(input) {
     return parseFloat(clean) || 0;
 }
 
-// ===== ADD KEY DISPLAY =====
 
 // ===== ADD KEY DISPLAY =====
 
@@ -1742,6 +1961,7 @@ function startObserving() {
 const initPriceDB = setInterval(() => {
     if (window.location.href.includes('/listings/440/')) {
         addPriceDBButton();
+
     }
 }, 1000);
 
@@ -1753,4 +1973,5 @@ addPriceDBButton();
 createConfigButton();
 addKeyPrices();
 addKillstreakButtons();
+addInstaBuyButtons();
 })();
