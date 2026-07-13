@@ -177,6 +177,16 @@ const WEAPON_INDEX_MAP = {
 	"Syringe Gun" :204,
 	"Tide Turner" : 1099,
 	"Warrior's Spirit" : 310,
+	"Atomizer": 450,
+	"Chargin' Targe": 131,
+	"Flying Guillotine" : 812,
+	"Mantreads" : 444,
+	"Neon Annihilator" : 813,
+	"Pomson 6000" : 588,
+	"Pretty Boy's Pocket Pistol": 773,
+	"Short Circuit" : 528,
+	"Splendid Screen" :406,
+	
 };
 const TAUNT_INDEX_MAP = {
     "High Five!": 167,
