@@ -13,17 +13,15 @@
 // @connect      sku.pricedb.io
 // ==/UserScript==
 //==================================================================
+//                CHANGELOGCHANGELOG 0.5.2
+//*added some missing weapon ids
+//
+//
+//
 //                CHANGELOGCHANGELOG 0.5.1
 //*add filter to fetch unusualifier skus and generate correct link
 //*Fixed some bugs for the navigators.
 //*added feature to scan for filled parts
-//
-//                CHANGELOGCHANGELOG 0.5.0
-//*Added Goku
-//*Changed the Ref diplay to mixed display when ref value over 1key
-//*Changed the button colors
-//*Added Classifieds button for unusual hats/taunts and kits/fabs.
-//*Added MCS button for unusual hats/taunts
 //===================================================================
 (function () {
     'use strict';
@@ -173,6 +171,12 @@ const WEAPON_INDEX_MAP = {
     "Gunslinger" : 142,
     "Shooting Star" : 30665,
     "Huo-Long Heater" : 811,
+	"Holiday Punch" : 656,
+	"Rainblower" : 741,
+	"Hot Hand" : 1181,
+	"Syringe Gun" :204,
+	"Tide Turner" : 1099,
+	"Warrior's Spirit" : 310,
 };
 const TAUNT_INDEX_MAP = {
     "High Five!": 167,
