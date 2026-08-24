@@ -1868,7 +1868,7 @@ function parseSafeNumber(input) {
     const firstLine = input.toString().split("\n")[0];
 
     // Strip everything except digits, dots, and commas (removes €, $, letters, etc.)
-    let clean = firstLine.replace(/[^\d.,]/g, '');
+    let clean = firstLine.replace(/[^\d.,]/g, '').replace(/^[.,]+|[.,]+$/g, '');
     // CASE 1: Contains BOTH a dot and a comma (e.g., "1.234,56" or "1,234.56")
     if (clean.includes(',') && clean.includes('.')) {
         const lastComma = clean.lastIndexOf(',');
