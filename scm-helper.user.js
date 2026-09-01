@@ -851,7 +851,7 @@ const EFFECT_MAP = {
 					"Aurora Aura":3219,
 					"Northern Nights":3221,
 					"Chilling Mist":3222,
-					"Circuit Break":3223
+					"Circuit Break":3223,
 	                "Wheat Field":3224,
 	                "Luminous Drift":3225,
 	                "Luminous Shift":3227,
