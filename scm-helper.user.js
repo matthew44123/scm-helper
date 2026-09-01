@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         scm-helper
 // @namespace    tf2-helper
-// @version      0.5.2
+// @version      0.5.3
 // @description  adds verious links and indcators for tf2 listings
 // @match        https://steamcommunity.com/market/*
 // @match        https://steamcommunity.com/market/listings/440/*
@@ -13,8 +13,8 @@
 // @connect      sku.pricedb.io
 // ==/UserScript==
 //==================================================================
-//                CHANGELOGCHANGELOG 0.5.2
-//*added some missing weapon ids
+//                CHANGELOGCHANGELOG 0.5.3
+//*added summer 2026 unusual ids
 //
 //
 //
@@ -657,6 +657,13 @@ const EFFECT_MAP = {
 					"Midnight Frostfall":403,
 					"Twilight Snowfall":404,
 					"Cryogenic":405,
+	                "Umbral Lights":407,
+	                "Polar Prism":408,
+	                "Solar Singed":409,
+	                "Floral Growth":410,
+	                "Stellar Orbit":412,
+	                "Blissful Butterflies":413,
+	                "Wispful Wings":415,
                     "Hot": 701,
                     "Isotope": 702,
                     "Cool": 703,
@@ -845,6 +852,11 @@ const EFFECT_MAP = {
 					"Northern Nights":3221,
 					"Chilling Mist":3222,
 					"Circuit Break":3223
+	                "Wheat Field":3224,
+	                "Luminous Drift":3225,
+	                "Luminous Shift":3227,
+	                "Showtime Spotlights":3228,
+	                "Deep Dive":3229
     };
 const SHEEN_COLORS = {
     "Team Shine": "#FF4D4D",
