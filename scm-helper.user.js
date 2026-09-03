@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         scm-helper
 // @namespace    tf2-helper
-// @version      0.5.3
+// @version      0.5.4
 // @description  adds verious links and indcators for tf2 listings
 // @match        https://steamcommunity.com/market/*
 // @match        https://steamcommunity.com/market/listings/440/*
@@ -13,15 +13,12 @@
 // @connect      sku.pricedb.io
 // ==/UserScript==
 //==================================================================
+//                CHANGELOGCHANGELOG 0.5.4
+//*added after-fees (x0.87) key display with toggle
+//*fixed some keyprice display issues
+//
 //                CHANGELOGCHANGELOG 0.5.3
 //*added summer 2026 unusual ids
-//
-//
-//
-//                CHANGELOGCHANGELOG 0.5.1
-//*add filter to fetch unusualifier skus and generate correct link
-//*Fixed some bugs for the navigators.
-//*added feature to scan for filled parts
 //===================================================================
 (function () {
     'use strict';
@@ -1801,6 +1798,7 @@ function createConfigButton() {
     // Load current states
 const showKeys = getSetting("showKeys", true);
     const showRef = getSetting("showRef", false);
+    const showFees = getSetting("showFees", true);
     const hideDetails = getSetting("hideItemDetails", false);
     const hideAll = getSetting("hideEntireInfo", false);
     const enableNav = getSetting("enableNavigator", true);
@@ -1822,7 +1820,8 @@ const showKeys = getSetting("showKeys", true);
 
         <div style="margin-bottom:8px; font-size:12px; line-height: 1.6;">
             <label><input type="checkbox" id="cfg-show-keys" ${showKeys ? 'checked' : ''}> Show Key Value</label><br>
-            <label><input type="checkbox" id="cfg-show-ref" ${showRef ? 'checked' : ''}> Show Ref Value</label>
+            <label><input type="checkbox" id="cfg-show-ref" ${showRef ? 'checked' : ''}> Show Ref Value</label><br>
+            <label title="Shows key value after the 13% Steam fee"><input type="checkbox" id="cfg-show-fees" ${showFees ? 'checked' : ''}> Show Fees Value</label>
             <hr style="border:0; border-top:1px solid #444; margin: 8px 0;">
             <label title="Fetches SKUs for PriceDB buttons and Navigator"><input type="checkbox" id="cfg-enable-pdb" ${enablePriceDB ? 'checked' : ''}> Enable PriceDB Features</label><br>
             <label title="Shows the quick switch UI below graph"><input type="checkbox" id="cfg-enable-nav" ${enableNav ? 'checked' : ''}> Enable Navigator</label><br>
@@ -1851,6 +1850,7 @@ document.getElementById("cfg-save").onclick = () => {
         setRefPrice(safeRef);
         localStorage.setItem("showKeys", document.getElementById("cfg-show-keys").checked);
         localStorage.setItem("showRef", document.getElementById("cfg-show-ref").checked);
+        localStorage.setItem("showFees", document.getElementById("cfg-show-fees").checked);
         localStorage.setItem("hideItemDetails", document.getElementById("cfg-hide-details").checked);
         localStorage.setItem("hideEntireInfo", document.getElementById("cfg-hide-all").checked);
         localStorage.setItem("enableNavigator", document.getElementById("cfg-enable-nav").checked);
@@ -1909,9 +1909,10 @@ function addKeyPrices() {
     const rows = document.querySelectorAll(".market_listing_row");
     const showKeys = getSetting("showKeys", true);
     const showRef = getSetting("showRef", false);
+    const showFees = getSetting("showFees", true);
 
-    // If both features are off, don't do anything
-    if (!showKeys && !showRef) return;
+    // If all features are off, don't do anything
+    if (!showKeys && !showRef && !showFees) return;
 
     rows.forEach(row => {
         if (row.querySelector(".price-converter-display")) return;
@@ -1937,7 +1938,13 @@ function addKeyPrices() {
             html += `<div style="color: #9ecbff;">≈ ${keys.toFixed(2)} keys</div>`;
         }
 
-        // 2. Compact Mixed Metal Display (e.g., ≈ 5 keys 20 ref OR ≈ 20 ref)
+        // 2. After-Fees Key Display (key value after the 13% Steam fee)
+        if (showFees) {
+            const keysAfterFees = (keys * 0.87).toFixed(2);
+            html += `<div style="color: #ffd700;">≈ ${keysAfterFees} keys</div>`;
+        }
+
+        // 3. Compact Mixed Metal Display (e.g., ≈ 5 keys 20 ref OR ≈ 20 ref)
         if (showRef) {
             const totalRef = Math.round((keys * refPerKey) * 10) / 10;
 
@@ -1964,25 +1971,20 @@ function addKeyPrices() {
 
 
 let timeout = null;
-const keyObserver = new MutationObserver(() => {
+const priceBodyObserver = new MutationObserver(() => {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
         addKeyPrices();
-        addPriceDBButton();
-    }, 200);
+    }, 150);
 });
+priceBodyObserver.observe(document.body, { childList: true, subtree: true, characterData: true });
 
-// Targeted function to start observing
-function startObserving() {
-    const container = document.getElementById("searchResultsRows");
-    if (container) {
-        keyObserver.observe(container, { childList: true });
-        addKeyPrices(); // Run once on load
-    } else {
-        // If the container isn't loaded yet, try again in a bit
-        setTimeout(startObserving, 500);
-    }
-}
+// Watchdog: guarantees a re-run even if a swap fires no mutation events.
+setInterval(() => { addKeyPrices(); }, 1500);
+
+// Immediate reaction to hash-based page changes (no reload).
+window.addEventListener("hashchange", () => setTimeout(addKeyPrices, 250));
+
 // This runs the check every 500ms until the button is successfully added
 const initPriceDB = setInterval(() => {
     if (window.location.href.includes('/listings/440/')) {
@@ -1990,8 +1992,6 @@ const initPriceDB = setInterval(() => {
 
     }
 }, 1000);
-
-startObserving();
 
 // ===== INIT =====
 applyVisibilitySettings()
